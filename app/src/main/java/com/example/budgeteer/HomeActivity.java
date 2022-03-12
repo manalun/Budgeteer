@@ -45,7 +45,6 @@ public class HomeActivity extends AppCompatActivity {
         amountTextView = findViewById(R.id.totalAmountSpent);
         fab = findViewById(R.id.fab);
         loader = new ProgressDialog(this);
-        home = findViewById(R.id.homeButton);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
