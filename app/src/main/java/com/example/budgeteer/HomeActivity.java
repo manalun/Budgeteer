@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +30,8 @@ public class HomeActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private FloatingActionButton fab;
     private ProgressDialog loader;
+    private ImageButton home;
+    public Float monthlySpending = 0.0f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,12 +40,12 @@ public class HomeActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Monthly Budget");
+        getSupportActionBar().setTitle("");
 
         amountTextView = findViewById(R.id.totalAmountSpent);
-        recyclerView = findViewById(R.id.recyclerView);
         fab = findViewById(R.id.fab);
         loader = new ProgressDialog(this);
+        home = findViewById(R.id.homeButton);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,22 +80,23 @@ public class HomeActivity extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String mAmount = amount.getText().toString();
+                Float mAmount = Float.valueOf(amount.getText().toString());
                 String mNotes = notes.getText().toString();
                 String item = itemsSpinner.getSelectedItem().toString();
 
-                if (mAmount.isEmpty()) {
-                    amount.setError("Amount required!");
+                if (mAmount.isNaN() || mAmount <= 0) {
+                    amount.setError("Valid amount required!");
                     return;
                 }
                 if (mNotes.isEmpty()) {
                     amount.setError("Note required!");
                     return;
                 }
-
                 if (item.equals("select item")) {
                     Toast.makeText(HomeActivity.this, "Select a valid item", Toast.LENGTH_SHORT).show();
-                } else {
+                }
+
+                else {
                     loader.setMessage("Adding item to database");
                     loader.setCanceledOnTouchOutside(false);
                     loader.show();
